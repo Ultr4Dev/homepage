@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>single page</title>
+    <style>
+        :root {
+            --bg: #050608;
+            --fg: rgba(255, 255, 255, .92);
+            --muted: rgba(255, 255, 255, .72);
+            --glow: rgba(180, 220, 255, .9);
+            --glow2: rgba(140, 190, 255, .55);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: var(--bg);
+            color: var(--fg);
+        }
+
+        .stage {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+            background:
+                radial-gradient(1200px 700px at 55% 65%, rgba(255, 255, 255, .08), transparent 60%),
+                radial-gradient(900px 520px at 55% 64%, rgba(120, 170, 255, .10), transparent 62%),
+                radial-gradient(700px 420px at 50% 75%, rgba(0, 0, 0, .35), transparent 70%),
+                linear-gradient(#040508, #050608);
+        }
+
+        .grain {
+            pointer-events: none;
+            position: absolute;
+            inset: -40px;
+            opacity: .11;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+            background-size: 240px 240px;
+            mix-blend-mode: overlay;
+            transform: translateZ(0);
+            animation: drift 14s linear infinite;
+        }
+
+        @keyframes drift {
+            from {
+                transform: translate3d(-12px, -10px, 0);
+            }
+
+            to {
+                transform: translate3d(12px, 10px, 0);
+            }
+        }
+
+        .ring-wrap {
+            position: absolute;
+            left: 50%;
+            top: 62%;
+            transform: translate(-50%, -50%);
+            width: min(240px, 44vw);
+            aspect-ratio: 1/1;
+            display: grid;
+            place-items: center;
+        }
+
+        .ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 999px;
+            border: 4px solid rgba(255, 255, 255, .94);
+            box-shadow:
+                0 0 18px 2px var(--glow),
+                0 0 40px 10px var(--glow2),
+                inset 0 0 14px rgba(255, 255, 255, .25);
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .6));
+            animation: pulse 12s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: .92;
+            }
+
+            50% {
+                transform: scale(1.03);
+                opacity: 1;
+            }
+        }
+
+        .ring-shadow {
+            position: absolute;
+            width: 95%;
+            height: 24%;
+            bottom: -14%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 999px;
+            background: radial-gradient(closest-side, rgba(140, 190, 255, .35), transparent 70%);
+            filter: blur(10px);
+            opacity: .75;
+        }
+
+        .glitch-block {
+            position: absolute;
+            right: min(7vw, 72px);
+            top: min(8vh, 72px);
+            max-width: min(640px, 72vw);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            letter-spacing: .02em;
+            line-height: 1.3;
+            font-size: clamp(18px, 2.3vw, 34px);
+            text-align: left;
+            white-space: pre-line;
+            opacity: .95;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 0 14px rgba(255, 255, 255, .10);
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: .7;
+            clip-path: inset(0 0 0 0);
+        }
+
+        .glitch::before {
+            transform: translate(-1px, 0);
+            color: rgba(130, 210, 255, .85);
+            animation: glitchA 2.8s infinite linear alternate-reverse;
+            mix-blend-mode: screen;
+        }
+
+        .glitch::after {
+            transform: translate(1px, 0);
+            color: rgba(255, 255, 255, .85);
+            animation: glitchB 3.3s infinite linear alternate-reverse;
+            mix-blend-mode: lighten;
+        }
+
+        @keyframes glitchA {
+            0% {
+                clip-path: inset(0 0 88% 0);
+            }
+
+            10% {
+                clip-path: inset(38% 0 40% 0);
+            }
+
+            20% {
+                clip-path: inset(64% 0 10% 0);
+            }
+
+            35% {
+                clip-path: inset(12% 0 68% 0);
+            }
+
+            50% {
+                clip-path: inset(78% 0 4% 0);
+            }
+
+            65% {
+                clip-path: inset(26% 0 52% 0);
+            }
+
+            80% {
+                clip-path: inset(46% 0 30% 0);
+            }
+
+            100% {
+                clip-path: inset(0 0 90% 0);
+            }
+        }
+
+        @keyframes glitchB {
+            0% {
+                clip-path: inset(84% 0 0 0);
+            }
+
+            12% {
+                clip-path: inset(40% 0 44% 0);
+            }
+
+            25% {
+                clip-path: inset(6% 0 78% 0);
+            }
+
+            42% {
+                clip-path: inset(70% 0 12% 0);
+            }
+
+            58% {
+                clip-path: inset(18% 0 60% 0);
+            }
+
+            73% {
+                clip-path: inset(52% 0 28% 0);
+            }
+
+            90% {
+                clip-path: inset(30% 0 48% 0);
+            }
+
+            100% {
+                clip-path: inset(86% 0 0 0);
+            }
+        }
+
+        .status {
+            position: absolute;
+            right: min(10vw, 96px);
+            top: 56%;
+            transform: translateY(-50%);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: clamp(18px, 2vw, 26px);
+            color: rgba(255, 255, 255, .86);
+            letter-spacing: .03em;
+            line-height: 1.6;
+            text-shadow: 0 0 18px rgba(140, 190, 255, .12);
+            white-space: pre-line;
+            opacity: .92;
+        }
+
+        .can {
+            position: absolute;
+            left: min(5vw, 52px);
+            bottom: min(6vh, 60px);
+            width: min(200px, 30vw);
+            filter: drop-shadow(0 18px 28px rgba(0, 0, 0, .7));
+            opacity: .95;
+        }
+
+        .straw {
+            position: absolute;
+            left: min(5vw, 52px);
+            bottom: calc(min(6vh, 60px) + min(200px, 30vw) * .70);
+            width: min(220px, 34vw);
+            height: 2px;
+            background: rgba(200, 60, 60, .8);
+            transform: translateX(88px) rotate(-1deg);
+            transform-origin: left center;
+            opacity: .8;
+        }
+
+        @media (max-width: 740px) {
+            .glitch-block {
+                right: 16px;
+                top: 18px;
+            }
+
+            .status {
+                right: 16px;
+                top: 52%;
+            }
+
+            .ring-wrap {
+                top: 60%;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .status {
+                top: 64%;
+                font-size: 18px;
+            }
+
+            .ring-wrap {
+                width: 180px;
+                top: 56%;
+            }
+
+            .can {
+                width: 150px;
+            }
+
+            .straw {
+                display: none;
+            }
+        }
+
+        ::selection {
+            background: rgba(140, 190, 255, .25);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .grain,
+            .ring,
+            .glitch::before,
+            .glitch::after {
+                animation: none !important;
+            }
+        }
+
+        .disclaimer {
+            position: absolute;
+            right: min(6vw, 64px);
+            bottom: min(6vh, 48px);
+            max-width: 40ch;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                "Liberation Mono", "Courier New", monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, .38);
+            opacity: .85;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="stage" aria-label="Single page site">
+        <div class="grain" aria-hidden="true"></div>
+
+        <div class="glitch-block" aria-label="Statement">
+            <div class="glitch" data-text="I build things.">I build things.</div><br />
+            <div class="glitch" data-text="Sometimes they work,">Sometimes they work,</div><br />
+            <div class="glitch" data-text="Sometimes they matter.">Sometimes they matter.</div>
+        </div>
+
+        <div class="ring-wrap" aria-label="Center ring">
+            <div class="ring" aria-hidden="true"></div>
+            <div class="ring-shadow" aria-hidden="true"></div>
+        </div>
+
+        <div class="status" aria-label="Status">
+            message received.<br />
+            processing...
+        </div>
+
+        <div class="straw" aria-hidden="true"></div>
+
+        <svg class="can" viewBox="0 0 220 520" role="img" aria-label="WD-40 can illustration">
+            <path d="M70 30 C70 12 86 0 110 0 C134 0 150 12 150 30 L150 65 L70 65 Z" fill="#c83a3a" />
+            <rect x="70" y="55" width="80" height="24" rx="10" fill="#e6e6e6" opacity=".9" />
+            <path d="M132 58 h36 c10 0 18 8 18 18 v18 h-54 z" fill="#d9d9d9" />
+            <rect x="172" y="74" width="20" height="20" rx="6" fill="#c83a3a" />
+            <defs>
+                <linearGradient id="gBody" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0" stop-color="#1c4d88" />
+                    <stop offset=".5" stop-color="#0f3f7a" />
+                    <stop offset="1" stop-color="#0b2f5e" />
+                </linearGradient>
+                <linearGradient id="gShine" x1="0" x2="1">
+                    <stop offset="0" stop-color="rgba(255,255,255,.0)" />
+                    <stop offset=".35" stop-color="rgba(255,255,255,.16)" />
+                    <stop offset=".55" stop-color="rgba(255,255,255,.06)" />
+                    <stop offset="1" stop-color="rgba(255,255,255,0)" />
+                </linearGradient>
+            </defs>
+            <path d="M55 70 C40 95 34 130 34 165 v275 c0 45 34 80 76 80 h0 c42 0 76-35 76-80 V165 c0-35-6-70-21-95 z"
+                fill="url(#gBody)" />
+            <path d="M78 92 C70 120 66 145 66 170 v255 c0 40 16 70 28 82 h-18 c-16-14-30-42-30-82 V170
+               c0-30 6-70 20-98 z" fill="url(#gShine)" />
+            <path d="M48 190 h144 v150 c0 18-14 32-32 32 H80 c-18 0-32-14-32-32 z" fill="#f4d000" />
+            <text x="120" y="275" text-anchor="middle"
+                font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44"
+                font-weight="800" fill="#0b2f5e" letter-spacing="2">
+                WD-40
+            </text>
+            <g opacity=".55" fill="#0b2f5e"
+                font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+                font-size="12">
+                <text x="60" y="330">MULTI-USE PRODUCT</text>
+                <text x="60" y="350">FIXES SQUEAKS</text>
+                <text x="60" y="370">FREES STUCK PARTS</text>
+            </g>
+            <ellipse cx="110" cy="500" rx="82" ry="14" fill="rgba(0,0,0,.35)" />
+            <path d="M52 475 h116 c-10 20-30 32-58 32s-48-12-58-32z" fill="#082b55" />
+        </svg>
+        <div class="disclaimer">
+            It’s not my fault if you have to see this, so I won’t fix it.
+        </div>
+    </main>
+
+    <script>
+        (function () {
+            const el = document.querySelector('.status');
+            if (!el) return;
+            const base = "message received.\nprocessing";
+            let dots = 3;
+            setInterval(() => {
+                dots = (dots % 3) + 1;
+                el.textContent = base + ".".repeat(dots);
+                if (Math.random() < 0.08) {
+                    el.style.opacity = "0.72";
+                    setTimeout(() => el.style.opacity = "0.92", 90);
+                }
+            }, 650);
+        })();
+    </script>
+</body>
+
+</html>

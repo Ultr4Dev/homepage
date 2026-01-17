@@ -1,0 +1,6 @@
+services:
+  website:
+    image: website
+    build: .
+    ports:
+      - "8080:80"
