@@ -33,7 +33,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=raw,value=${{ github.run_number }}
+            type=raw,value=10.${{ github.run_number }}
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
