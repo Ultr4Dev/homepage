@@ -11,9 +11,9 @@ Pull the latest image:
 docker pull ghcr.io/ultr4dev/homepage:latest
 ```
 
-Or pull a specific commit:
+Or pull a specific commit (replace `abc1234` with the actual commit SHA):
 ```bash
-docker pull ghcr.io/ultr4dev/homepage:main-<sha>
+docker pull ghcr.io/ultr4dev/homepage:main-abc1234
 ```
 
 ### Running the Container
