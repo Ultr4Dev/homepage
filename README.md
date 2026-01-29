@@ -13,7 +13,7 @@ docker pull ghcr.io/ultr4dev/homepage:latest
 
 Or pull a specific commit (replace `abc1234` with the actual commit SHA):
 ```bash
-docker pull ghcr.io/ultr4dev/homepage:main-abc1234
+docker pull ghcr.io/ultr4dev/homepage:sha-abc1234
 ```
 
 ### Running the Container
